@@ -1,0 +1,121 @@
+#Inside misc, can you create a new folder called trash, and move all files that begin with "ab" into that folder?
+
+cd ~/alg/dataset1/misc/
+  mkdir trash 
+  mv $(find . -type f -name "ab*") trash/
+  ls -lh trash/
+
+
+
+
+#Can you list long information about all fasta or fa files inside proteins or nucleotides folders? Could you have done the same while working from your home directory?
+
+ls -lh *fasta *fa ../proteins/ ../nucleotides/
+
+
+
+#Can you inspect the content of filename[1] ?
+
+cat filename[1]
+
+
+
+
+Can you print the number of .txt, .py, .pl files, then their total? Can you do that with maximum efficiency (least amount of searches)?
+
+find . -type f \( -name "*.txt" -o -name "*.pl" -o -name "*.py" \) | wc
+     57      57    1362
+
+
+
+
+#Can you print message "yes" only if the value of variable F begins with "s" and ends with "fa"?
+
+ if [[ $F = s*fa ]] then echo yes; fi;
+
+
+
+
+#Can you print message "yes" only if the value of variable F ends with an "a" or with a "o"?
+
+
+
+if [[ $F = *a || $F = *o ]] then echo yes; fi;
+
+
+
+
+Can you print the message "lots of fastas", only if there are at least 3 .fa or .fasta files in current folder and subfolders (you may use the command or script fastafind(.sh) if you wish)?
+
+
+if [[ $(find . -name "*.fa" -o -name "*.fasta" | wc -l) -gt 3 ]]; then echo "lots of fastas"; fi
+
+
+
+
+Can you print the message "long file" if the variable F is the name of a file with >100 lines?
+
+if [[ $(wc -l < $F) -gt 100 ]]; then echo "long file"; fi
+
+
+
+
+
+Initiate a variable SEQ with value "PIRGSPFA", and a variable FILE with value "de_novo/homology.striata_vs_suecica.csv". Can you print the message "seq is present" only if the sequence is found anywhere in the file? Try changing SEQ and FILE and see if it works.
+
+SEQ="PIRGSPFA"
+
+FILE="de_novo/homology.striata_vs_suecica.csv"
+
+(grep -q $SEQ $FILE) && echo "seq is present" 
+
+
+
+
+
+# you may run other commands to check folder structures beforehand
+cd misc
+ls -lh
+
+## how many can you guess correctly?
+0 echo $(ls r*t)	
+	y - lists all files starting r and ending with t
+	
+1 echo $(find . -name "r*t")				
+	y - finds all files (also hidden ones) that starts with r and ends with t
+	
+2 echo r*t
+	gives me all files starting r and ending t #weil datein tatsächlich vorhanden sind
+	
+3 echo xyz*
+	writes xyz* # weil keine daten vorhanden sind
+	
+4 echo ls xyz* 
+	writes ls xyz* 
+	
+5 echo ls $(ls xyz*)
+	writes ls and an error, because no files starting with xyz existing
+	
+6 echo ls $(ls xyz*) 2> err
+	writes ls, the error from before goes to a "error"file calles err
+	
+7 n=$(echo r*t | wc -l); echo $n
+	writes all files with r*t, counds their lines and writes the number of lines
+	
+8 ls jpg && echo "Found image"
+	no jpg to list, therefore noting happens and error occurs
+	
+9 ls jpg && echo "Found image" 2> err
+	same, but error goes to err file
+	
+10 ls jpg > a && echo "Found image" > b
+	no file with jpg, therefore error 
+	
+11 if [[ $(ls file* | wc -l) -gt 4 ]]; then echo many; fi
+	writes many, because tehre are more than 4 files starting with file*
+
+
+
+
+
+
