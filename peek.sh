@@ -1,8 +1,9 @@
-#!/bib/bash
+#!/bin/bash
+n=$2
 
-if [[ -z "$i" ]]; then i=3; fi
+if [[ -z "$n" ]]; then 
+n=3; fi 
 
-head -n3 $# $1 
+head -n"$n" $1
 echo ... 
-tail -n3 $# $1
-
+tail -n "$n" $1 
