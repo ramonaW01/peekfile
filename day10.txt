@@ -1,0 +1,115 @@
+#Can you: choose a text file, then print its name and number of lines in a grammarly-corrected form (e.g. singular / plural used accordingly)?
+
+
+if [[ $(wc -l < discover.sh) == 1 ]];  then echo "The file discover.sh has 1 line"; elif [[ $(wc -l < discover.sh) -gt 1 ]]; then echo "The file discover.sh has $(wc -l < discover.sh) lines"; else echo "The file discover.sh has 0 lines"; fi
+
+
+#Check the chunk of code here above.
+What happens if there's no *txt files in current folder? Can you amend the code to deal with it?
+
+it shows :
+	*txt is empty
+	
+for i in *txt; do echo === File $i report ===; if [[ -s $i ]]; then echo It has $(cat $i | wc -l) lines; echo Long information: ; ls -lh $i; echo ; echo First and last line:; head -n $i; echo ...; tail -n1 $i; else echo no $i file found; fi; done
+
+
+#Can you modify the above commands so they process txt files in subfolders as well?
+
+	for i in *txt $(find . -type f -name "*txt"); do echo === File $i report ===; if [[ -s $i ]]; then echo It has $(cat $i | wc -l) lines; echo Long information: ; ls -lh $i; echo ; echo First and last line:; head -n $i; echo ...; tail -n1 $i; else echo no $i file found; fi; done
+	
+	
+	
+#Can you do the same, but saving the list of txt files to a file, then use that list for the for loop?
+
+
+find . -type f -name "*.txt" > txt_list.txt
+
+for i in $(cat txt_list.txt); do echo === File $i report ===; if [[ -s $i ]]; then echo It has $(cat $i | wc -l) lines; echo Long information: ; ls -lh $i; echo ; echo First and last line:; head -n $i; echo ...; tail -n1 $i; else echo no $i file found; fi; done
+
+
+
+
+#Can you print the name, first and last line of all .fa files in proteins/? Or for all .fa files in subfolders of dataset1?
+
+1. in proteins:
+	for i in $(find . -type f -name "*fa"); do echo $i;  head -n1 $i; tail -n1 $i; done
+
+
+2. in dataset:
+	same just in different folder
+	
+	
+	
+	
+
+#Can you perform the following task for all files in current folder and subfolders: print its name and number of lines differentiating cases in which it has zero, one, or >1 line?
+
+ for i in $(find . -type f); 
+ do 
+ if [[ $(wc -l < $i) == 0 ]]; then
+ echo $i;  
+ wc -l < $i; 
+ elif [[ $(wc -l < $i)  == 1 ]]; then
+ echo $i; 
+ wc -l < $i; 
+ elif [[ $(wc -l < $i)  -gt 1 ]]; then
+ echo $i; 
+ wc -l < $i; 
+ else echo no file found.
+ fi
+ done
+
+
+
+#Inspect the content structure of files tables/batch_files/*csv. Their header (i.e. first line) is identical. Can you create a new file with such header, then the last line of each csv between batch 1 and batch 10, in their natural order (batch 1, then 2, then 3 ... then batch 10)?
+
+echo $(head -n1 batch.1.csv) > batch_mix.txt
+for i in $(find . -type f -name "*csv" | sort -V); do tail -n1 $i >> batch_mix.txt; done
+
+
+
+
+#Variant: can you create a new file with such header, then the (first non-header line and last 2 lines) of each batch file between 1-20?
+
+
+for i in $(find . -type f -name "*csv" | sort -V); do head -n 2 $i | tail -n 1 >> batch_mix2.txt; tail -n2 $i >> batch_mix2.txt; done
+
+
+
+
+#Can you modify the above command to put the lines of Homo of batch.1.csv in file batch.1.Homo.csv, and so on for the three species mentioned, and all batches 1..15? I.e., creating 45 files in the process
+
+
+for n in {1..15}; do
+  echo ==== batch.$n.csv
+  for s in Homo Canis Mus; do
+    grep $s batch.$n.csv
+    if [[ $s == Homo ]]; then grep $s batch.$n.csv >> $n.Homo.csv;
+    elif [[ $s == Canis ]]; then grep $s batch.$n.csv >> $n.Canis.csv;
+    elif [[ $s == Mus ]]; then grep $s batch.$n.csv >> $n.Mus.csv;
+    fi;
+  done
+done
+
+
+
+
+#Can you build a command that, among the species names in target_prokaryotes.txt, prints only
+those found in ../poteins/cysd_archaea.uniprot.fa?
+
+grep -Fof target_prokaryotes.txt ../proteins/cysd_archaea.uniprot.fa | sort -u
+
+
+
+Choose a text file, then print its name and number of lines differentiating cases in which it has zero, one, or >1 line?
+Make it into a script countlines.sh that takes one file as argument, put it in your github repo.
+Update the script so that the user may provide any number of files as arguments (may need autonomous learning!)
+
+
+
+
+
+
+
+
+
